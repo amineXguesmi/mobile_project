@@ -1,6 +1,7 @@
 package com.example.mobile_project.ui.fragments
 
 import ProductService
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -47,8 +48,16 @@ class basket_list : Fragment() {
             }
 
             override fun onFailure(call: Call<ProductsData>, t: Throwable) {
-
+                activity?.runOnUiThread {
+                    AlertDialog.Builder(activity)
+                        .setTitle("Connection Error")
+                        .setMessage("There was a problem connecting to the network. Please check your internet connection and try again.")
+                        .setPositiveButton(android.R.string.ok, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show()
+                }
             }
+
         })
     }
 
