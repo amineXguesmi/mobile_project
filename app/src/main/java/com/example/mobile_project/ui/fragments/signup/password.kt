@@ -26,7 +26,7 @@ class PasswordFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var nextButton: Button
     private lateinit var backLinearLayout: LinearLayout
-    private val passwordRegex = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}")
+    private val passwordRegex = Regex("^.{6,}\$")
     private lateinit var password: EditText
     private lateinit var passwordAgain: EditText
     private lateinit var error: TextView
@@ -35,8 +35,10 @@ class PasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPasswordBinding.inflate(inflater, container, false)
-
+        password = binding.password
+        passwordAgain = binding.reenterPassword
         nextButton = binding.next
+        error = binding.error
         backLinearLayout = binding.back
         backLinearLayout.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_passwordFragment_to_emailFragment)

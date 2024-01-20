@@ -1,5 +1,6 @@
 package com.example.mobile_project.core.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mobile_project.core.models.User
@@ -17,8 +18,8 @@ class UserVm (private val userService: UserService= UserService()) : ViewModel()
     val registrationResult: MutableLiveData<Boolean> = MutableLiveData()
     val loginErrorLiveData: MutableLiveData<String> = MutableLiveData()
     val signupErrorLiveData: MutableLiveData<String> = MutableLiveData()
-    private var userEmail:String = ""
-    private var userPassword:String = ""
+    var userEmail:String = ""
+    var userPassword:String = ""
     fun setPassword(value: String) {
         userPassword = value
     }
@@ -63,12 +64,15 @@ class UserVm (private val userService: UserService= UserService()) : ViewModel()
                     val errorBody = response.errorBody()?.string()
                     val errorMessage = parseErrorMessage(errorBody)
                     signupErrorLiveData.postValue(errorMessage)
+                    Log.d("error", errorMessage)
                     registrationResult.postValue(false)
                 }
             }
 
             override fun onFailure(call: Call<UserRegister>, t: Throwable) {
+                Log.d("error", "t7cha")
                 registrationResult.postValue(false)
+
             }
         })
     }

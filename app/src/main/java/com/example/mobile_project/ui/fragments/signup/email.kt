@@ -2,6 +2,7 @@ package com.example.mobile_project.ui.fragments.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +49,11 @@ class EmailFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.signupErrorLiveData.observe(this) { errorMessage ->
+            if (errorMessage != null) {
+                error.text = errorMessage
+            }
+        }
         nextButton.setOnClickListener {
             validateAndNavigateToNextFragment()
         }
@@ -65,6 +71,7 @@ class EmailFragment : Fragment() {
             return
         }
         viewModel.setEmail(emailValue)
+        Log.d("EmailFragment", "Email: ${viewModel.userPassword}")
         view?.findNavController()?.navigate(R.id.action_emailFragment_to_passwordFragment)
     }
 
