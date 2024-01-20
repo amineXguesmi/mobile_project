@@ -1,33 +1,82 @@
 package com.example.mobile_project.ui.fragments.signup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.mobile_project.R
+import com.example.mobile_project.core.viewmodels.UserVm
+import com.example.mobile_project.core.viewmodels.UserVmFactory
+import com.example.mobile_project.databinding.FragmentEmailBinding
+import com.example.mobile_project.ui.screens.LoginScreen
+import com.example.mobile_project.ui.screens.SignUpScreen
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [email.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EmailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentEmailBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var nextButton:Button
+    private lateinit var backLinearLayout: LinearLayout
+    private lateinit var email:EditText
+    private lateinit var emailAgain:EditText
+    private lateinit var error:TextView
+    private val emilRegex = Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})")
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentEmailBinding.inflate(inflater, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        nextButton = binding.next
+        email = binding.email
+        emailAgain = binding.reenterEmail
+        error = binding.error
+        backLinearLayout = binding.back
+        backLinearLayout.setOnClickListener {
+            val intent = Intent(activity, LoginScreen::class.java)
+            startActivity(intent)
+        }
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        nextButton.setOnClickListener {
+            validateAndNavigateToNextFragment()
         }
     }
+    private fun validateAndNavigateToNextFragment() {
+        val emailValue = email.text.toString().trim()
+        val emailAgainValue = emailAgain.text.toString().trim()
 
+        if (!validateEmail(emailValue)) {
+            showError("Invalid email format")
+            return
+        }
+        if (emailValue != emailAgainValue) {
+            showError("Emails do not match")
+            return
+        }
+        viewModel.setEmail(emailValue)
+        view?.findNavController()?.navigate(R.id.action_emailFragment_to_passwordFragment)
+    }
+
+    private fun validateEmail(email: String): Boolean {
+        return emilRegex.matches(email)
+    }
+
+    private fun showError(errorMessage: String) {
+        error.text = errorMessage
+        error.visibility = View.VISIBLE
+    }
+    private val viewModel : UserVm by viewModels() {
+        UserVmFactory()
+    }
 }
