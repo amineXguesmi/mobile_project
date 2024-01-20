@@ -43,7 +43,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/EditText_password"
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
@@ -71,8 +71,18 @@
                 android:text="Forget Password?"
                 android:textColor="@android:color/white" />
 
+            <TextView
+                android:id="@+id/error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:textColor="@android:color/white"
+                />
+
             <Button
-                android:id="@+id/button"
+                android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -85,14 +95,17 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Sign up"
                 android:textColor="@android:color/black"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:clickable="true"
+                android:onClick="onSignupClick"
+                />
 
         </LinearLayout>
     </ScrollView>
