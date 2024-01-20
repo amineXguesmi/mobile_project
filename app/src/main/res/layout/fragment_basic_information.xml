@@ -107,7 +107,6 @@
                     android:datePickerMode="spinner"
                     android:calendarTextColor="@android:color/white"
                     android:calendarViewShown="false"/>
-
                 <Button
                     android:id="@+id/signup"
                     android:layout_width="match_parent"

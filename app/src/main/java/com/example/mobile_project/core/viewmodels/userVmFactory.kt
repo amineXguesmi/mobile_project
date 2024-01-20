@@ -2,7 +2,7 @@ package com.example.mobile_project.core.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.mobile_project.core.services.UserService
+import com.example.mobile_project.core.services.user.UserService
 
 
 class UserVmFactory (private val userService: UserService = UserService()) :

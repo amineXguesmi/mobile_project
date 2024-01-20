@@ -1,4 +1,4 @@
-package com.example.mobile_project.core.services
+package com.example.mobile_project.core.services.user
 
 import com.example.mobile_project.core.models.User
 import com.example.mobile_project.core.models.UserRegister
