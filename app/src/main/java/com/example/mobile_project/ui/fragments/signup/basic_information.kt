@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.mobile_project.R
@@ -25,6 +26,7 @@ class BasicInformationFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var backLinearLayout: LinearLayout
     private lateinit var signUpButton: View
+    private val viewModel: UserVm by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,15 +51,11 @@ class BasicInformationFragment : Fragment() {
         }
         viewModel.signupErrorLiveData.observe(this) { errorMessage ->
             if (errorMessage != null) {
-                print(errorMessage)
-                view?.findNavController()?.navigate(R.id.action_basicInformationFragment_to_emailFragment)
+                view.findNavController().navigate(R.id.action_basicInformationFragment_to_emailFragment)
             }
         }
         signUpButton.setOnClickListener {
             viewModel.registerUser()
         }
-    }
-    private val viewModel : UserVm by viewModels() {
-        UserVmFactory()
     }
 }

@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,7 @@ class EmailFragment : Fragment() {
     private lateinit var email:EditText
     private lateinit var emailAgain:EditText
     private lateinit var error:TextView
+    private val viewModel: UserVm by activityViewModels()
     private val emilRegex = Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,7 +72,7 @@ class EmailFragment : Fragment() {
             showError("Emails do not match")
             return
         }
-        viewModel.setEmail(emailValue)
+        viewModel.userEmail= emailValue
         view?.findNavController()?.navigate(R.id.action_emailFragment_to_passwordFragment)
     }
 
@@ -81,8 +83,5 @@ class EmailFragment : Fragment() {
     private fun showError(errorMessage: String) {
         error.text = errorMessage
         error.visibility = View.VISIBLE
-    }
-    private val viewModel : UserVm by viewModels() {
-        UserVmFactory()
     }
 }
