@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/product"
         android:layout_width="365dp"
         android:layout_height="392dp"
         android:background="#CDCDDC"
