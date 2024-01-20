@@ -71,7 +71,6 @@ class EmailFragment : Fragment() {
             return
         }
         viewModel.setEmail(emailValue)
-        Log.d("EmailFragment", "Email: ${viewModel.userPassword}")
         view?.findNavController()?.navigate(R.id.action_emailFragment_to_passwordFragment)
     }
 

@@ -1,16 +1,17 @@
-package com.example.mobile_project.core.services
+package com.example.mobile_project.core.services.user
 
 import com.example.mobile_project.core.models.User
 import com.example.mobile_project.core.models.UserRegister
+import com.example.mobile_project.core.services.RetrofitHelper
 import retrofit2.Call
 
-class UserService:UserAPI {
+class UserService: UserAPI {
     override fun loginUser(requestBody: RegistrationRequestBody): Call<User> {
-        return UserRetrofitHelper.retrofitService.loginUser(requestBody)
+        return RetrofitHelper.userRetrofitService.loginUser(requestBody)
     }
 
     override fun registerUser(requestBody: RegistrationRequestBody): Call<UserRegister> {
-        return UserRetrofitHelper.retrofitService.registerUser(requestBody)
+        return RetrofitHelper.userRetrofitService.registerUser(requestBody)
     }
 
 }

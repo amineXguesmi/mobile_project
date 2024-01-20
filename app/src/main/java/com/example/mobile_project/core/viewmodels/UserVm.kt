@@ -5,15 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mobile_project.core.models.User
 import com.example.mobile_project.core.models.UserRegister
-import com.example.mobile_project.core.services.RegistrationRequestBody
-import com.example.mobile_project.core.services.UserService
+import com.example.mobile_project.core.services.user.RegistrationRequestBody
+import com.example.mobile_project.core.services.user.UserService
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserVm (private val userService: UserService= UserService()) : ViewModel() {
+class UserVm (private val userService: UserService = UserService()) : ViewModel() {
     val loginResult: MutableLiveData<Boolean> = MutableLiveData()
     val registrationResult: MutableLiveData<Boolean> = MutableLiveData()
     val loginErrorLiveData: MutableLiveData<String> = MutableLiveData()
