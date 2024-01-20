@@ -100,7 +100,6 @@
                 android:layout_height="wrap_content"
                 android:datePickerMode="spinner"
                 android:calendarTextColor="@color/white"
-                android:background="@drawable/white"
                 android:calendarViewShown="false"/>
 
             <Button
