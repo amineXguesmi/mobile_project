@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface UserAPI {
     @POST("api/auth/login")
@@ -16,7 +17,7 @@ interface UserAPI {
     fun registerUser(@Body requestBody: RegistrationRequestBody): Call<UserRegister>
 
     @GET("api/users/{id}")
-    fun getUserById(id: String): Call<User>
+    fun getUserById(@Path("id") id: String): Call<User>
 
 }
 

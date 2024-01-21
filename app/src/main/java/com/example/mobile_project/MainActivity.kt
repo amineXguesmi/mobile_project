@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mobile_project.core.viewmodels.ProductVM
+import com.example.mobile_project.core.viewmodels.ProductVMFactory
 import com.example.mobile_project.core.viewmodels.UserVm
 import com.example.mobile_project.core.viewmodels.UserVmFactory
 import com.example.mobile_project.ui.screens.HomePage
@@ -15,7 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel.getUser(this)
+
         if(viewModel.userIsLogIn){
+                productViewModel.getCartProducts(this)
+
             val intent = Intent(this, HomePage::class.java)
             startActivity(intent)
             finish()
@@ -28,5 +33,8 @@ class MainActivity : AppCompatActivity() {
     }
     private val viewModel : UserVm by viewModels() {
         UserVmFactory()
+    }
+    private val productViewModel : ProductVM by viewModels() {
+        ProductVMFactory()
     }
 }

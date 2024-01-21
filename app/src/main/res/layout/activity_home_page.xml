@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.screens.HomePage">
 
-    <FrameLayout
-        android:id="@+id/frame_layout"
+    <fragment
+        android:id="@+id/home_nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/product_nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView2"

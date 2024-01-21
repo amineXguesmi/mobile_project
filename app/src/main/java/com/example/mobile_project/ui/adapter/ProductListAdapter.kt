@@ -16,7 +16,7 @@ import com.example.mobile_project.core.models.Product;
 //}
 
 
-class ProductListAdapter(var productsList: List<Product>/*, private val onItemClick: (Product) -> Unit*/) :
+class ProductListAdapter(var productsList: List<Product>, private val onProductItemClick: (String) -> Unit) :
     RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,9 +37,9 @@ class ProductListAdapter(var productsList: List<Product>/*, private val onItemCl
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
         holder.name.text = currentItem.name
         holder.price.text = "$ ${currentItem.price}"
-//        holder.product.setOnClickListener {
-//            onItemClick(currentItem)
-//        }
+        holder.product.setOnClickListener {
+            onProductItemClick(currentItem.id)
+        }
     }
 
     override fun getItemCount(): Int {
