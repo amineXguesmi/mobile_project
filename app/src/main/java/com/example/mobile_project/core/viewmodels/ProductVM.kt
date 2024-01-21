@@ -1,6 +1,7 @@
 package com.example.mobile_project.core.viewmodels
 
 import ProductService
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mobile_project.core.models.Product
@@ -23,14 +24,18 @@ class ProductVM(private val productService: ProductService = ProductService()) :
                     val result: ProductsData? = response.body()
                     if (result != null) {
                         products.postValue(result.products)
+                        println(result.toString())
                     }
                 } else {
+                    println("null response")
                     error.postValue("an error has occured while fetching data")
                 }
             }
 
             override fun onFailure(call: Call<ProductsData>, t: Throwable) {
                 error.postValue(t.message)
+                println("failure")
+                println(t.message.toString())
             }
         })
     }
