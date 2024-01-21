@@ -13,6 +13,7 @@ import com.example.mobile_project.databinding.ActivityHomePageBinding
 import com.example.mobile_project.databinding.ActivityLoginScreenBinding
 import com.example.mobile_project.databinding.FragmentEmailBinding
 import com.example.mobile_project.ui.fragments.product.ProductList
+import com.example.mobile_project.ui.fragments.product_list.Cart
 
 class HomePage : AppCompatActivity() {
     private var _binding: ActivityHomePageBinding? = null
@@ -31,7 +32,7 @@ class HomePage : AppCompatActivity() {
                     true
                 }
                 R.id.Cart -> {
-                    replaceFragment(ProductList())
+                    replaceFragment(Cart())
                     true
                 }
                 R.id.Favorite -> {

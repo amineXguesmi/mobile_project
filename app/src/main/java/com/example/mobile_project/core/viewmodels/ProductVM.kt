@@ -14,6 +14,7 @@ import retrofit2.Response
 class ProductVM(private val productService: ProductService = ProductService()) : ViewModel() {
     val products : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
     var error : MutableLiveData<String> = MutableLiveData<String>()
+    val product : MutableLiveData<Product> = MutableLiveData<Product>()
     fun getProducts() {
 
         val call: Call<ProductsData> = productService.getProducts()
@@ -36,6 +37,27 @@ class ProductVM(private val productService: ProductService = ProductService()) :
                 error.postValue(t.message)
                 println("failure")
                 println(t.message.toString())
+            }
+        })
+    }
+
+    fun getProductById(id: String) {
+
+        val call: Call<Product> = productService.getProductById(id)
+
+        call.enqueue(object : Callback<Product> {
+            override fun onResponse(call: Call<Product>, response: Response<Product>) {
+                if (response.isSuccessful) {
+                    val result: Product? = response.body()
+                    if (result != null) {
+                        product.postValue(result!!)
+                    }
+                } else {
+                    error.postValue("an error has occured while fetching data")
+                }
+            }
+            override fun onFailure(call: Call<Product>, t: Throwable) {
+                error.postValue(t.message)
             }
         })
     }
