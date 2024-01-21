@@ -1,4 +1,5 @@
 
+import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.models.ProductsData
 import com.example.mobile_project.core.services.RetrofitHelper
 import com.example.mobile_project.core.services.product.ProductAPI
@@ -8,5 +9,10 @@ public class ProductService: ProductAPI {
     override fun getProducts(): Call<ProductsData> {
         return RetrofitHelper.productRetrofitService.getProducts();
     }
+
+    override fun getProductById(id: String): Call<Product> {
+        return RetrofitHelper.productRetrofitService.getProductById(id);
+    }
+
 
 }
