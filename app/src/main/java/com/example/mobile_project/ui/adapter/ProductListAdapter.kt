@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mobile_project.R
 import com.example.mobile_project.core.models.Product;
 
@@ -20,7 +21,7 @@ class ProductListAdapter(var productsList: List<Product>/*, private val onItemCl
     RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val image: ImageView = itemView.findViewById(R.id.product_image)
+        val image: ImageView = itemView.findViewById(R.id.image)
         val price: TextView = itemView.findViewById(R.id.price)
         val name: TextView = itemView.findViewById(R.id.name)
         val product: ConstraintLayout = itemView.findViewById(R.id.product)
@@ -34,7 +35,7 @@ class ProductListAdapter(var productsList: List<Product>/*, private val onItemCl
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = productsList[position]
-        holder.image.setImageURI(Uri.parse(currentItem.image))
+        Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
         holder.name.text = currentItem.name
         holder.price.text = "$ ${currentItem.price}"
 //        holder.product.setOnClickListener {
