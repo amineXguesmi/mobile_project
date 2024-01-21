@@ -1,9 +1,11 @@
 package com.example.mobile_project.core.services.user
 
+import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.models.User
 import com.example.mobile_project.core.models.UserRegister
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface UserAPI {
@@ -12,6 +14,10 @@ interface UserAPI {
 
     @POST("api/users")
     fun registerUser(@Body requestBody: RegistrationRequestBody): Call<UserRegister>
+
+    @GET("api/users/{id}")
+    fun getUserById(id: String): Call<User>
+
 }
 
 data class RegistrationRequestBody(

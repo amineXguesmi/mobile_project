@@ -1,12 +1,16 @@
 package com.example.mobile_project.core.viewmodels
 
 import ProductService
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.models.ProductsData
 import com.example.mobile_project.core.models.User
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,6 +19,9 @@ class ProductVM(private val productService: ProductService = ProductService()) :
     val products : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
     var error : MutableLiveData<String> = MutableLiveData<String>()
     val product : MutableLiveData<Product> = MutableLiveData<Product>()
+    val cartProduct : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
+    private val PREF_NAME = "MyAppPrefs"
+    private val KEY_CART_PRODUCTS = "cartProducts"
     fun getProducts() {
 
         val call: Call<ProductsData> = productService.getProducts()
@@ -61,4 +68,32 @@ class ProductVM(private val productService: ProductService = ProductService()) :
             }
         })
     }
+
+
+    private fun  saveCartProducts(context: Context, cartProducts: List<Product>) {
+        val gson = Gson()
+        val json = gson.toJson(cartProducts)
+
+        val prefs: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putString(KEY_CART_PRODUCTS, json)
+        editor.apply()
+    }
+
+    fun getCartProducts(context: Context) {
+        val prefs: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val json = prefs.getString(KEY_CART_PRODUCTS, null)
+
+        val gson = Gson()
+        val type = object : TypeToken<List<Product>>() {}.type
+        cartProduct.postValue(gson.fromJson(json, type) ?: emptyList())
+    }
+
+    fun addProductToCart(context: Context, product: Product) {
+        val cartProducts = cartProduct.value?.toMutableList() ?: mutableListOf()
+        cartProducts.add(product)
+        saveCartProducts(context, cartProducts)
+        getCartProducts(context)
+    }
+
 }

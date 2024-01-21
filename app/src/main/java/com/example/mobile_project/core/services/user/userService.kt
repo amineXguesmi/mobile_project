@@ -14,4 +14,8 @@ class UserService: UserAPI {
         return RetrofitHelper.userRetrofitService.registerUser(requestBody)
     }
 
+    override fun getUserById(id: String): Call<User> {
+        return RetrofitHelper.userRetrofitService.getUserById(id)
+    }
+
 }

@@ -47,7 +47,7 @@ class LoginScreen : AppCompatActivity() {
     private fun onLoginClick(view: View) {
         val email = emailTextEdit.text.toString()
         val password = passwordTextEdit.text.toString()
-        viewModel.loginUser(email, password, "customer")
+        viewModel.loginUser(this,email, password, "customer")
     }
     private val viewModel : UserVm by viewModels() {
         UserVmFactory()

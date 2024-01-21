@@ -1,4 +1,4 @@
-package com.example.mobile_project.ui.adapter;
+package com.example.mobile_project.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,26 +9,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_project.R
-import com.example.mobile_project.core.models.Product;
+import com.example.mobile_project.core.models.Product
 
 
-//class ProductListAdapter(var productsList: List<Product> , val onItemClick: (Product) -> Unit){
-//}
-
-
-class ProductListAdapter(var productsList: List<Product>/*, private val onItemClick: (Product) -> Unit*/) :
-    RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
+class CartListAdapter(var productsList: List<Product>/*, private val onItemClick: (Product) -> Unit*/) :
+    RecyclerView.Adapter<CartListAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val image: ImageView = itemView.findViewById(R.id.image)
-        val price: TextView = itemView.findViewById(R.id.price)
-        val name: TextView = itemView.findViewById(R.id.name)
-        val product: ConstraintLayout = itemView.findViewById(R.id.product)
+        val image: ImageView = itemView.findViewById(R.id.pic)
+        val price: TextView = itemView.findViewById(R.id.feeEachItem)
+        val name: TextView = itemView.findViewById(R.id.title)
+        val product: ConstraintLayout = itemView.findViewById(R.id.cart_item_layout)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.product_item, parent, false)
+            .inflate(R.layout.viewholder_cart, parent, false)
         return ViewHolder(view)
     }
 
