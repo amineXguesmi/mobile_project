@@ -15,11 +15,13 @@
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/fragment_email.xml" value="0.1" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/fragment_name.xml" value="0.14447463768115942" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/fragment_password.xml" value="0.1" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/fragment_product_list.xml" value="0.1" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/product_item.xml" value="0.1" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/menu/bottom_navbar.xml" value="0.24895833333333334" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
