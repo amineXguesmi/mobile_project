@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.mobile_project.R
@@ -30,6 +31,8 @@ class PasswordFragment : Fragment() {
     private lateinit var password: EditText
     private lateinit var passwordAgain: EditText
     private lateinit var error: TextView
+    private val viewModel: UserVm by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +66,7 @@ class PasswordFragment : Fragment() {
             showError("Emails do not match")
             return
         }
-        viewModel.setPassword(passwordValue)
+        viewModel.userPassword = passwordValue
 
         view?.findNavController()?.navigate(R.id.action_passwordFragment_to_basicInformationFragment)
     }
@@ -75,7 +78,5 @@ class PasswordFragment : Fragment() {
         error.text = errorMessage
         error.visibility = View.VISIBLE
     }
-    private val viewModel : UserVm by viewModels() {
-        UserVmFactory()
-    }
+
 }
