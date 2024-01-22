@@ -11,11 +11,10 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobile_project.R
 import com.example.mobile_project.core.models.Product
+import com.example.mobile_project.core.models.ProductsCart
 import com.example.mobile_project.core.viewmodels.ProductVM
 import com.example.mobile_project.databinding.FragmentCartBinding
 import com.example.mobile_project.ui.adapter.CartListAdapter
@@ -51,17 +50,20 @@ class Cart : Fragment() ,CartListAdapter.ItemClickListener{
         buyButton= binding.Buy
         val productListRecyclerView: RecyclerView = binding.cartView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = CartListAdapter(emptyList(),this)
+        adapter = CartListAdapter(emptyList(),this,productViewModel,requireContext())
         productListRecyclerView.adapter = adapter
         productViewModel.cartProduct.observe(viewLifecycleOwner) { products ->
             adapter.updateList(products)
+            calculateTotals(products)
         }
+
         buyButton.setOnClickListener{
            val total:String= totalAmount.text.toString()+" $"
             shoCustomDialog(total)
         }
         return binding.root
     }
+
     private fun shoCustomDialog(total:String){
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -75,12 +77,14 @@ class Cart : Fragment() ,CartListAdapter.ItemClickListener{
         okButton.setOnClickListener {
             dialog.dismiss()
             Toast.makeText(requireContext(),"Your order has been confirmed",Toast.LENGTH_SHORT).show()
+            productViewModel.deleteAllProductsFromCart(requireContext())
         }
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
     }
+
     override fun onAddClick(product: Product) {
         totalPrice += product.price
         totalTax.text = (totalPrice/10).toString()
@@ -91,13 +95,26 @@ class Cart : Fragment() ,CartListAdapter.ItemClickListener{
     }
 
 
-    override fun onMinusClick(product: Product) {
+    override fun onMinusClick(product: Product,delete:Boolean) {
         totalPrice -= product.price
-
         val totalTaxValue = totalPrice / 10
         totalTax.text = totalTaxValue.toString()
         totalFreeTax.text = totalPrice.toString()
-        DeliveryTxt.text = "10.0"
-        totalAmount.text = (totalPrice + 10.0 + totalTaxValue).toString()
+        DeliveryTxt.text = if(delete) "0.0" else "10.0"
+        totalAmount.text = (totalPrice + DeliveryTxt.text.toString().toDouble() + totalTaxValue).toString()
+    }
+    private fun calculateTotals(products: List<ProductsCart>) {
+        totalPrice = 0.0
+
+        for (product in products) {
+            for (i in 1..product.quantity)
+                totalPrice += product.products.price
+        }
+
+        totalTax.text = (totalPrice / 10).toString()
+        val totalTaxValue = if (totalTax.text.isNotEmpty()) totalTax.text.toString().toDouble() else 0.0
+        totalFreeTax.text = totalPrice.toString()
+        DeliveryTxt.text = if (products.isNotEmpty()) "10.0" else "0.0"
+        totalAmount.text = (totalPrice + DeliveryTxt.text.toString().toDouble() + totalTaxValue).toString()
     }
 }
