@@ -7,7 +7,7 @@ data class Product(
     @SerializedName("brand")
     val brand: BrandX,
     @SerializedName("category")
-    val category: Object,
+    val category: String,
     @SerializedName("description")
     val description: String,
     @SerializedName("_id")

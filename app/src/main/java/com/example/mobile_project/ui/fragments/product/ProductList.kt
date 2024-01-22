@@ -12,12 +12,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.R
 import com.example.mobile_project.core.viewmodels.ProductVM
 import com.example.mobile_project.core.viewmodels.ProductVMFactory
 import com.example.mobile_project.core.viewmodels.UserVm
 import com.example.mobile_project.databinding.FragmentProductListBinding
 import com.example.mobile_project.ui.adapter.ProductListAdapter
+import com.example.mobile_project.ui.adapter.UpdateType
 
 class ProductList : Fragment() {
     private var _binding: FragmentProductListBinding? = null
@@ -33,22 +35,33 @@ class ProductList : Fragment() {
 //        val productsObserver : Observer<List<Product>> = Observer<List<Product>> { products : List<Product> -> adapter.updateList(products)}
     }
 
+    fun toggleFavourite(product : Product , isFavourite : Boolean) {
+        if(isFavourite) {
+            productViewModel.deleteProductFromFavourite(requireContext() , product)
+        } else {
+            productViewModel.addProductToFavourite(requireContext() , product)
+        }
+    }
+
+    fun redirectToProductDetails(product : Product) : Unit {
+        view?.findNavController()?.navigate(
+                R.id.action_productList_to_pruduct_detail,
+                Bundle().apply {
+                    putString("product_id", product.id)
+                }
+            )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val productListRecyclerView : RecyclerView = binding.productListRecyclerView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = ProductListAdapter(emptyList()) { productId ->
-            view?.findNavController()?.navigate(
-                R.id.action_productList_to_pruduct_detail,
-                Bundle().apply {
-                    putString("product_id", productId)
-                }
-            )
-        }
+        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
-        productViewModel.products.observe(viewLifecycleOwner) {products -> adapter.updateList(products)}
+        productViewModel.products.observe(viewLifecycleOwner) {adapter.updateList(it)}
+        productViewModel.favouriteProduct.observe(viewLifecycleOwner) {adapter.updateList(it , UpdateType.FAV)}
         return binding.root
     }
 
