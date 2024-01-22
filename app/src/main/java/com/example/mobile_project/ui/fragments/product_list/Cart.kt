@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_project.R
+import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.viewmodels.ProductVM
 import com.example.mobile_project.core.viewmodels.UserVm
 import com.example.mobile_project.databinding.FragmentCartBinding
@@ -22,6 +23,14 @@ class Cart : Fragment() {
     private val binding get() = _binding!!
     private val productViewModel: ProductVM by activityViewModels()
 
+    fun toggleFavourite(product : Product, isFavourtite : Boolean) {
+        if(isFavourtite) {
+            productViewModel.deleteProductFromFavourite(requireContext() , product)
+        } else {
+            productViewModel.addProductToFavourite(requireContext() , product)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,7 +38,7 @@ class Cart : Fragment() {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         val productListRecyclerView: RecyclerView = binding.cartView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = ProductListAdapter(emptyList())
+        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite)
         productListRecyclerView.adapter = adapter
         productViewModel.cartProduct.observe(viewLifecycleOwner) { products ->
             adapter.updateList(products)
@@ -39,6 +48,6 @@ class Cart : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Avoid memory leaks
+        _binding = null
     }
 }

@@ -20,8 +20,13 @@ class ProductVM(private val productService: ProductService = ProductService()) :
     var error : MutableLiveData<String> = MutableLiveData<String>()
     val product : MutableLiveData<Product> = MutableLiveData<Product>()
     val cartProduct : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
+    val favouriteProduct : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
     private val PREF_NAME = "MyAppPrefs"
     private val KEY_CART_PRODUCTS = "cartProducts"
+    private val KEY_FAVOURITE_PRODUCTS = "favProducts"
+
+
+
     fun getProducts() {
 
         val call: Call<ProductsData> = productService.getProducts()
@@ -96,4 +101,37 @@ class ProductVM(private val productService: ProductService = ProductService()) :
         getCartProducts(context)
     }
 
+    private fun  saveFavouriteProducts(context: Context, favouriteProducts: List<Product>) {
+        val gson = Gson()
+        val json = gson.toJson(favouriteProducts)
+
+        val prefs: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putString(KEY_FAVOURITE_PRODUCTS, json)
+        editor.apply()
+    }
+
+    fun getFavouriteProducts(context: Context) {
+        val prefs: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val json = prefs.getString(KEY_FAVOURITE_PRODUCTS, null)
+
+        val gson = Gson()
+        val type = object : TypeToken<List<Product>>() {}.type
+        favouriteProduct.postValue(gson.fromJson(json, type) ?: emptyList())
+    }
+
+    fun addProductToFavourite(context: Context, product: Product) {
+        println("started")
+        val favouriteProduct = favouriteProduct.value?.toMutableList() ?: mutableListOf()
+        favouriteProduct.add(product)
+        println("fav length ${favouriteProduct.size}")
+        saveFavouriteProducts(context, favouriteProduct)
+        getFavouriteProducts(context)
+    }
+    fun deleteProductFromFavourite(context: Context, product: Product) {
+        val favouriteProduct = favouriteProduct.value?.toMutableList() ?: mutableListOf()
+        val newFav = favouriteProduct.filter { it.id != product.id }
+        saveFavouriteProducts(context, newFav)
+        getFavouriteProducts(context)
+    }
 }

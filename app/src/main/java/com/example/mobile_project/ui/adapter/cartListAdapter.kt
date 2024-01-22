@@ -19,6 +19,7 @@ class CartListAdapter(var productsList: List<Product>/*, private val onItemClick
         val image: ImageView = itemView.findViewById(R.id.pic)
         val price: TextView = itemView.findViewById(R.id.feeEachItem)
         val name: TextView = itemView.findViewById(R.id.title)
+        val isFavourite: ImageView = itemView.findViewById(R.id.isFavourite)
         val product: ConstraintLayout = itemView.findViewById(R.id.cart_item_layout)
     }
 

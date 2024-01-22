@@ -1,5 +1,6 @@
 package com.example.mobile_project.ui.adapter;
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,14 @@ import com.bumptech.glide.Glide
 import com.example.mobile_project.R
 import com.example.mobile_project.core.models.Product;
 
-
+enum class UpdateType {
+    ALL,
+    FAV
+}
 //class ProductListAdapter(var productsList: List<Product> , val onItemClick: (Product) -> Unit){
 //}
 
-
-class ProductListAdapter(var productsList: List<Product>/*, private val onItemClick: (Product) -> Unit*/) :
+class ProductListAdapter(var productsList: List<Product> , var favouriteList: List<Product>, private val onFavouriteClick: (Product , Boolean) -> Unit) :
     RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,6 +27,7 @@ class ProductListAdapter(var productsList: List<Product>/*, private val onItemCl
         val price: TextView = itemView.findViewById(R.id.price)
         val name: TextView = itemView.findViewById(R.id.name)
         val product: ConstraintLayout = itemView.findViewById(R.id.product)
+        val isFavourite: ImageView = itemView.findViewById(R.id.isFavourite)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,6 +41,13 @@ class ProductListAdapter(var productsList: List<Product>/*, private val onItemCl
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
         holder.name.text = currentItem.name
         holder.price.text = "$ ${currentItem.price}"
+        if(favouriteList.any {it.id == currentItem.id}) {
+            holder.isFavourite.setImageResource(R.drawable.baseline_favorite_24)
+            holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem , true) }
+        } else {
+            holder.isFavourite.setImageResource(R.drawable.baseline_favorite_border_24)
+            holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem,false) }
+        }
 //        holder.product.setOnClickListener {
 //            onItemClick(currentItem)
 //        }
@@ -45,8 +56,13 @@ class ProductListAdapter(var productsList: List<Product>/*, private val onItemCl
     override fun getItemCount(): Int {
         return productsList.size
     }
-    fun updateList(newList: List<Product>) {
-        productsList = newList
+    fun updateList(newList: List<Product> , updateType: UpdateType = UpdateType.ALL) {
+        println(newList.size)
+        if(updateType === UpdateType.FAV){
+            favouriteList = newList
+        } else {
+            productsList = newList
+        }
         notifyDataSetChanged()
     }
 }
