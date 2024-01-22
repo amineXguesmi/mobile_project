@@ -16,9 +16,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        userViewModel.getUser(this)
-        if(userViewModel.userIsLogIn){
-            productViewModel.getFavouriteProducts(this);
+        viewModel.getUser(this)
+
+        if(viewModel.userIsLogIn){
             val intent = Intent(this, HomePage::class.java)
             startActivity(intent)
             finish()
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-    private val userViewModel : UserVm by viewModels() {
+    private val viewModel : UserVm by viewModels() {
         UserVmFactory()
     }
     private val productViewModel : ProductVM by viewModels() {

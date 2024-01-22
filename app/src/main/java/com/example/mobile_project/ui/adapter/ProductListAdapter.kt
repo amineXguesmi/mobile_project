@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_project.R
-import com.example.mobile_project.core.models.Product;
+import com.example.mobile_project.core.models.Product
 
 enum class UpdateType {
     ALL,

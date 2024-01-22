@@ -66,6 +66,9 @@ class ProductDetail : Fragment() {
             Glide.with(this).load(product.image).into(productImage)
             addCartButton.setOnClickListener {
                 productViewModel.addProductToCart(requireContext(),product)
+                view?.findNavController()?.navigate(
+                    R.id.action_pruduct_detail_to_productList,
+                )
             }
         }
         return binding.root
