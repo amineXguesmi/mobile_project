@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.models.User
 import com.example.mobile_project.core.models.UserRegister
 import com.example.mobile_project.core.services.user.RegistrationRequestBody

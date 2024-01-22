@@ -9,7 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mobile_project.R
-import com.example.mobile_project.core.models.Product;
+import com.example.mobile_project.core.models.Product
 
 
 //class ProductListAdapter(var productsList: List<Product> , val onItemClick: (Product) -> Unit){

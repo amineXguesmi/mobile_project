@@ -1,6 +1,5 @@
 package com.example.mobile_project.core.services.user
 
-import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.models.User
 import com.example.mobile_project.core.models.UserRegister
 import retrofit2.Call

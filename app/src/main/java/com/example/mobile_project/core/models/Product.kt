@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Product(
     @SerializedName("brand")
-    val brand: Brand,
+    val brand: BrandX,
     @SerializedName("category")
-    val category: Category,
+    val category: Object,
     @SerializedName("description")
     val description: String,
     @SerializedName("_id")

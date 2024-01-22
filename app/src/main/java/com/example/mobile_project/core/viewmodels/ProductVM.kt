@@ -3,12 +3,10 @@ package com.example.mobile_project.core.viewmodels
 import ProductService
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.models.ProductsData
-import com.example.mobile_project.core.models.User
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Call

@@ -19,8 +19,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.getUser(this)
 
         if(viewModel.userIsLogIn){
-                productViewModel.getCartProducts(this)
-
             val intent = Intent(this, HomePage::class.java)
             startActivity(intent)
             finish()
