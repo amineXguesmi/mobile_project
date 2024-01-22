@@ -1,15 +1,19 @@
 package com.example.mobile_project.ui.fragments.product
 
 import android.os.Bundle
+import android.provider.Settings.Global.putString
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_project.core.models.Product
+import com.example.mobile_project.R
 import com.example.mobile_project.core.viewmodels.ProductVM
 import com.example.mobile_project.core.viewmodels.ProductVMFactory
 import com.example.mobile_project.core.viewmodels.UserVm
@@ -32,12 +36,20 @@ class ProductList : Fragment() {
     }
 
     fun toggleFavourite(product : Product , isFavourite : Boolean) {
-        println("product clicked ${product.id}")
         if(isFavourite) {
             productViewModel.deleteProductFromFavourite(requireContext() , product)
         } else {
             productViewModel.addProductToFavourite(requireContext() , product)
         }
+    }
+
+    fun redirectToProductDetails(product : Product) : Unit {
+        view?.findNavController()?.navigate(
+                R.id.action_productList_to_pruduct_detail,
+                Bundle().apply {
+                    putString("product_id", product.id)
+                }
+            )
     }
 
     override fun onCreateView(
@@ -46,7 +58,7 @@ class ProductList : Fragment() {
     ): View {
         val productListRecyclerView : RecyclerView = binding.productListRecyclerView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite)
+        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
         productViewModel.products.observe(viewLifecycleOwner) {adapter.updateList(it)}
         productViewModel.favouriteProduct.observe(viewLifecycleOwner) {adapter.updateList(it , UpdateType.FAV)}

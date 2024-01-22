@@ -37,18 +37,14 @@ class ProductVM(private val productService: ProductService = ProductService()) :
                     val result: ProductsData? = response.body()
                     if (result != null) {
                         products.postValue(result.products)
-                        println(result.toString())
                     }
                 } else {
-                    println("null response")
                     error.postValue("an error has occured while fetching data")
                 }
             }
 
             override fun onFailure(call: Call<ProductsData>, t: Throwable) {
                 error.postValue(t.message)
-                println("failure")
-                println(t.message.toString())
             }
         })
     }
@@ -75,7 +71,7 @@ class ProductVM(private val productService: ProductService = ProductService()) :
     }
 
 
-    private fun  saveCartProducts(context: Context, cartProducts: List<Product>) {
+    private fun saveCartProducts(context: Context, cartProducts: List<Product>) {
         val gson = Gson()
         val json = gson.toJson(cartProducts)
 
@@ -83,6 +79,7 @@ class ProductVM(private val productService: ProductService = ProductService()) :
         val editor = prefs.edit()
         editor.putString(KEY_CART_PRODUCTS, json)
         editor.apply()
+
     }
 
     fun getCartProducts(context: Context) {
@@ -91,14 +88,19 @@ class ProductVM(private val productService: ProductService = ProductService()) :
 
         val gson = Gson()
         val type = object : TypeToken<List<Product>>() {}.type
-        cartProduct.postValue(gson.fromJson(json, type) ?: emptyList())
+        val cartProducts = gson.fromJson<List<Product>>(json, type) ?: emptyList()
+        cartProduct.postValue(cartProducts)
     }
 
+
     fun addProductToCart(context: Context, product: Product) {
-        val cartProducts = cartProduct.value?.toMutableList() ?: mutableListOf()
-        cartProducts.add(product)
-        saveCartProducts(context, cartProducts)
-        getCartProducts(context)
+        val currentCartProducts = cartProduct.value?.toMutableList() ?: mutableListOf()
+        if (!currentCartProducts.contains(product)) {
+            currentCartProducts.add(product)
+            cartProduct.postValue(currentCartProducts)
+            saveCartProducts(context, currentCartProducts)
+            getCartProducts(context)
+        }
     }
 
     private fun  saveFavouriteProducts(context: Context, favouriteProducts: List<Product>) {
@@ -121,10 +123,8 @@ class ProductVM(private val productService: ProductService = ProductService()) :
     }
 
     fun addProductToFavourite(context: Context, product: Product) {
-        println("started")
         val favouriteProduct = favouriteProduct.value?.toMutableList() ?: mutableListOf()
         favouriteProduct.add(product)
-        println("fav length ${favouriteProduct.size}")
         saveFavouriteProducts(context, favouriteProduct)
         getFavouriteProducts(context)
     }

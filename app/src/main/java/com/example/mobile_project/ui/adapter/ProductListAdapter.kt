@@ -19,7 +19,7 @@ enum class UpdateType {
 //class ProductListAdapter(var productsList: List<Product> , val onItemClick: (Product) -> Unit){
 //}
 
-class ProductListAdapter(var productsList: List<Product> , var favouriteList: List<Product>, private val onFavouriteClick: (Product , Boolean) -> Unit) :
+class ProductListAdapter(var productsList: List<Product> , var favouriteList: List<Product>, private val onFavouriteClick: (Product , Boolean) -> Unit , val onItemClick: (Product) -> Unit) :
     RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -48,16 +48,15 @@ class ProductListAdapter(var productsList: List<Product> , var favouriteList: Li
             holder.isFavourite.setImageResource(R.drawable.baseline_favorite_border_24)
             holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem,false) }
         }
-//        holder.product.setOnClickListener {
-//            onItemClick(currentItem)
-//        }
+        holder.product.setOnClickListener {
+            onItemClick(currentItem)
+        }
     }
 
     override fun getItemCount(): Int {
         return productsList.size
     }
     fun updateList(newList: List<Product> , updateType: UpdateType = UpdateType.ALL) {
-        println(newList.size)
         if(updateType === UpdateType.FAV){
             favouriteList = newList
         } else {

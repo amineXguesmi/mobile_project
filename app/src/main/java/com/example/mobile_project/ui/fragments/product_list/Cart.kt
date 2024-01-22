@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_project.R
@@ -31,6 +32,15 @@ class Cart : Fragment() {
         }
     }
 
+    fun redirectToProductDetails(product : Product) : Unit {
+        view?.findNavController()?.navigate(
+            R.id.action_productList_to_pruduct_detail,
+            Bundle().apply {
+                putString("product_id", product.id)
+            }
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +48,7 @@ class Cart : Fragment() {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         val productListRecyclerView: RecyclerView = binding.cartView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite)
+        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
         productViewModel.cartProduct.observe(viewLifecycleOwner) { products ->
             adapter.updateList(products)
