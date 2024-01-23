@@ -48,7 +48,7 @@ class Cart : Fragment() {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         val productListRecyclerView: RecyclerView = binding.cartView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite , ::redirectToProductDetails)
+        val adapter = ProductListAdapter(emptyList() , emptyList() , "",::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
         productViewModel.cartProduct.observe(viewLifecycleOwner) { products ->
             adapter.updateList(products)
