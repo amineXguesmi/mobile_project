@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,6 +58,9 @@ class FavoriteProducts : Fragment() {
                 DialogUtils.showErrorDialog(requireContext(), it)
             }
         }
+        val spinner : Spinner = binding.spinner
+        spinner.visibility = View.GONE
+
         val adapter = FavouriteListAdapter(emptyList(),searchString,::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
         productViewModel.favouriteProduct.observe(viewLifecycleOwner) {adapter.updateList(it)}
