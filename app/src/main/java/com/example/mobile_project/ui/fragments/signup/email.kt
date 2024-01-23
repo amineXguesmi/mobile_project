@@ -2,7 +2,6 @@ package com.example.mobile_project.ui.fragments.signup
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +11,11 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.mobile_project.R
 import com.example.mobile_project.core.viewmodels.UserVm
-import com.example.mobile_project.core.viewmodels.UserVmFactory
 import com.example.mobile_project.databinding.FragmentEmailBinding
 import com.example.mobile_project.ui.screens.LoginScreen
-import com.example.mobile_project.ui.screens.SignUpScreen
 
 class EmailFragment : Fragment() {
     private var _binding: FragmentEmailBinding? = null

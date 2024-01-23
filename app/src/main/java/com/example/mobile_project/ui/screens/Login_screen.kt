@@ -3,7 +3,6 @@ package com.example.mobile_project.ui.screens
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
@@ -25,7 +24,7 @@ class LoginScreen : AppCompatActivity() {
         passwordTextEdit = binding.password
         loginButton = binding.login
         loginButton.setOnClickListener {
-            onLoginClick(it)
+            onLoginClick()
         }
         viewModel.loginResult.observe(this) { registrationSuccessful ->
             if (registrationSuccessful) {
@@ -40,16 +39,14 @@ class LoginScreen : AppCompatActivity() {
         }
     }
 
-    fun onSignupClick(view: View) {
+    fun onSignupClick() {
         val intent = Intent(this, SignUpScreen::class.java)
         startActivity(intent)
     }
-    private fun onLoginClick(view: View) {
+    private fun onLoginClick() {
         val email = emailTextEdit.text.toString()
         val password = passwordTextEdit.text.toString()
-        viewModel.loginUser(this,email, password, "customer")
+        viewModel.loginUser(this,email, password)
     }
-    private val viewModel : UserVm by viewModels() {
-        UserVmFactory()
-    }
+    private val viewModel : UserVm by viewModels(factoryProducer = ::UserVmFactory)
 }

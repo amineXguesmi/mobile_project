@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -40,12 +39,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val viewModel: UserVm by viewModels() {
-        UserVmFactory()
-    }
+    private val viewModel: UserVm by viewModels(factoryProducer = ::UserVmFactory)
 
-    fun isInternetAvailable(context: Context): Boolean {
-        var result: Boolean
+    private fun isInternetAvailable(context: Context): Boolean {
+        val result: Boolean
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkCapabilities = connectivityManager.activeNetwork ?: return false

@@ -26,13 +26,8 @@ class UserVm (private val userService: UserService = UserService()) : ViewModel(
     var user:User? = null
     var userIsLogIn:Boolean = false
     private val PREF_NAME = "MyAppPrefs"
-    fun setPassword(value: String) {
-        userPassword = value
-    }
-    fun setEmail(value: String) {
-        userEmail = value
-    }
-    fun loginUser(context: Context,email: String, password: String, role: String) {
+
+    fun loginUser(context: Context,email: String, password: String) {
         val requestBody = RegistrationRequestBody(email, password, "custom")
 
         val call: Call<User> = userService.loginUser(requestBody)
@@ -80,7 +75,6 @@ class UserVm (private val userService: UserService = UserService()) : ViewModel(
             }
 
             override fun onFailure(call: Call<UserRegister>, t: Throwable) {
-                Log.d("error", "t7cha")
                 registrationResult.postValue(false)
             }
         })
@@ -92,11 +86,9 @@ class UserVm (private val userService: UserService = UserService()) : ViewModel(
 
     private fun parseErrorMessage(errorBody: String?): String {
         return try {
-            // Parse the JSON response and extract the "message" field
             val jsonError = JSONObject(errorBody)
             jsonError.getString("message")
         } catch (e: JSONException) {
-            // Handle JSON parsing exception
             "An unexpected error occurred"
         }}
 

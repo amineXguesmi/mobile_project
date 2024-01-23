@@ -15,7 +15,7 @@ import com.example.mobile_project.core.models.ProductsCart
 import com.example.mobile_project.core.viewmodels.ProductVM
 
 
-class CartListAdapter(var productsList: List<ProductsCart>,private val itemClickListener: ItemClickListener,private val productViewModel: ProductVM,private val context: Context,) :
+class CartListAdapter(private var productsList: List<ProductsCart>, private val itemClickListener: ItemClickListener, private val productViewModel: ProductVM, private val context: Context) :
     RecyclerView.Adapter<CartListAdapter.ViewHolder>() {
     interface ItemClickListener {
         fun onAddClick(product: Product)

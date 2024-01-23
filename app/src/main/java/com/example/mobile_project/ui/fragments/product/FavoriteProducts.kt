@@ -17,8 +17,7 @@ import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.viewmodels.ProductVM
 import com.example.mobile_project.databinding.FragmentProductListBinding
 import com.example.mobile_project.ui.adapter.FavouriteListAdapter
-import com.example.mobile_project.ui.adapter.ProductListAdapter
-import com.example.mobile_project.ui.adapter.UpdateType
+import com.example.mobile_project.ui.shared.DialogUtils
 
 class FavoriteProducts : Fragment() {
 
@@ -31,13 +30,14 @@ class FavoriteProducts : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding=FragmentProductListBinding.inflate(layoutInflater)
+        productViewModel.getFavouriteProducts(requireContext())
     }
 
-    fun toggleFavourite(product : Product) {
+    private fun toggleFavourite(product : Product) {
         productViewModel.deleteProductFromFavourite(requireContext() , product)
     }
 
-    fun redirectToProductDetails(product : Product) : Unit {
+    private fun redirectToProductDetails(product : Product) {
         view?.findNavController()?.navigate(
             R.id.action_productList_to_pruduct_detail,
             Bundle().apply {
@@ -49,20 +49,22 @@ class FavoriteProducts : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val productListRecyclerView : RecyclerView = binding.productListRecyclerView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
+        productViewModel.error.observe(this) { errorMessage ->
+            errorMessage?.let {
+                DialogUtils.showErrorDialog(requireContext(), it)
+            }
+        }
         val adapter = FavouriteListAdapter(emptyList(),searchString,::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
         productViewModel.favouriteProduct.observe(viewLifecycleOwner) {adapter.updateList(it)}
         searchProductInput = binding.searchInput
         searchProductInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
-
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                println(7)
                 adapter.updateSearchFilter(s.toString())
             }
         })
