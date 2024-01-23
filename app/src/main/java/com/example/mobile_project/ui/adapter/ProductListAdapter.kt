@@ -1,4 +1,4 @@
-package com.example.mobile_project.ui.adapter;
+package com.example.mobile_project.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,8 @@ enum class UpdateType {
     FAV
 }
 
-class ProductListAdapter(private var productsList: List<Product>, private var favouriteList: List<Product>,var searchString : String, private val onFavouriteClick: (Product, Boolean) -> Unit, val onItemClick: (Product) -> Unit) :
+class ProductListAdapter(private var productsList: List<Product>, private var favouriteList: List<Product>,
+                         private var searchString : String, private val onFavouriteClick: (Product, Boolean) -> Unit, val onItemClick: (Product) -> Unit) :
     RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,7 +40,7 @@ class ProductListAdapter(private var productsList: List<Product>, private var fa
         val currentItem = filteredProducts[position]
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
         holder.name.text = currentItem.name
-        holder.price.text = "$ ${currentItem.price}"
+        "$ ${currentItem.price}".also { holder.price.text = it }
         if(favouriteList.any {it.id == currentItem.id}) {
             holder.isFavourite.setImageResource(R.drawable.baseline_favorite_24)
             holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem , true) }

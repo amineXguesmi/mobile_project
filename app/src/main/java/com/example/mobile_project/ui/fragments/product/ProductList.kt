@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
@@ -22,6 +23,7 @@ import com.example.mobile_project.core.viewmodels.ProductVM
 import com.example.mobile_project.databinding.FragmentProductListBinding
 import com.example.mobile_project.ui.adapter.ProductListAdapter
 import com.example.mobile_project.ui.adapter.UpdateType
+import com.example.mobile_project.ui.shared.DialogUtils
 
 class ProductList : Fragment() {
     private var _binding: FragmentProductListBinding? = null
@@ -35,13 +37,12 @@ class ProductList : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding=FragmentProductListBinding.inflate(layoutInflater)
+        productViewModel.getFavouriteProducts(requireContext())
         productViewModel.getCategories()
 
-
-//        val productsObserver : Observer<List<Product>> = Observer<List<Product>> { products : List<Product> -> adapter.updateList(products)}
     }
 
-    fun toggleFavourite(product : Product , isFavourite : Boolean) {
+    private fun toggleFavourite(product : Product, isFavourite : Boolean) {
         if(isFavourite) {
             productViewModel.deleteProductFromFavourite(requireContext() , product)
         } else {
@@ -49,7 +50,7 @@ class ProductList : Fragment() {
         }
     }
 
-    fun redirectToProductDetails(product : Product) : Unit {
+    private fun redirectToProductDetails(product : Product) {
         view?.findNavController()?.navigate(
                 R.id.action_productList_to_pruduct_detail,
                 Bundle().apply {
@@ -72,6 +73,11 @@ class ProductList : Fragment() {
         val adapter = ProductListAdapter(emptyList() , emptyList() ,searchString, ::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
         productViewModel.products.observe(viewLifecycleOwner) {adapter.updateList(it)}
+        productViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                DialogUtils.showErrorDialog(requireContext(), it)
+            }
+        }
         productViewModel.favouriteProduct.observe(viewLifecycleOwner) {adapter.updateList(it , UpdateType.FAV)}
         searchProductInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}

@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.mobile_project.R
 import com.example.mobile_project.core.models.Product
 
-class FavouriteListAdapter(var favouriteList: List<Product>,private var searchString: String, private val onFavouriteClick: (Product) -> Unit, val onItemClick: (Product) -> Unit) :
+class FavouriteListAdapter(private var favouriteList: List<Product>, private var searchString: String, private val onFavouriteClick: (Product) -> Unit, val onItemClick: (Product) -> Unit) :
     RecyclerView.Adapter<FavouriteListAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.image)
@@ -32,7 +32,7 @@ class FavouriteListAdapter(var favouriteList: List<Product>,private var searchSt
         val currentItem = filteredProducts[position]
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
         holder.name.text = currentItem.name
-        holder.price.text = "$ ${currentItem.price}"
+        "$ ${currentItem.price}".also { holder.price.text = it }
         holder.isFavourite.setImageResource(R.drawable.baseline_favorite_24)
         holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem) }
         holder.product.setOnClickListener {

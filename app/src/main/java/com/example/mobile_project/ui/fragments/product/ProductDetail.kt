@@ -13,9 +13,8 @@ import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.mobile_project.R
 import com.example.mobile_project.core.viewmodels.ProductVM
-import com.example.mobile_project.databinding.FragmentProductDetailsBinding
-import com.example.mobile_project.databinding.FragmentProductListBinding
 import com.example.mobile_project.databinding.FragmentPruductDetailBinding
+import com.example.mobile_project.ui.shared.DialogUtils
 
 
 class ProductDetail : Fragment() {
@@ -53,15 +52,21 @@ class ProductDetail : Fragment() {
                 R.id.action_pruduct_detail_to_productList,
             )
         }
+        productViewModel.error.observe(this) { errorMessage ->
+            errorMessage?.let {
+                DialogUtils.showErrorDialog(requireContext(), it)
+            }
+        }
         productViewModel.product.observe(viewLifecycleOwner) { product ->
             productName.text=product.name
-            productPrice.text="Product Price: ${product.price}"
+            "Product Price: ${product.price}".also { productPrice.text = it }
             productDescription.text=product.description
             if(product.stock==0){
-                productStock.text="Out of stock"}
+                "Out of stock".also { productStock.text = it }
+            }
             else
             {
-                productStock.text="Stock : ${product.stock.toString()}"
+                "Stock : ${product.stock}".also { productStock.text = it }
             }
             Glide.with(this).load(product.image).into(productImage)
             addCartButton.setOnClickListener {

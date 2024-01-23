@@ -1,19 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/button_background.xml" value="0.127" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/ic_add_white_16dp.xml" value="0.119" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.1565" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.127" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/ic_remove_white_16dp.xml" value="0.119" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/internet_bg.xml" value="0.139" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/login_background.xml" value="0.1715" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/login_field_background.xml" value="0.127" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/white_background.xml" value="0.153" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/drawable/white_background2.xml" value="0.2545" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/activity_home_page.xml" value="0.1" />
-        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/activity_login_screen.xml" value="0.2" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/activity_login_screen.xml" value="0.1" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/activity_main.xml" value="0.1484375" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/activity_signup_screen.xml" value="0.14447463768115942" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/category_spinner_item.xml" value="0.1" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/counter_button.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/counter_layout.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/custom_dialog.xml" value="0.12158054711246201" />
@@ -25,9 +29,10 @@
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/fragment_product_details.xml" value="0.1" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/fragment_product_list.xml" value="0.1" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/fragment_pruduct_detail.xml" value="0.2" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/internet_dialog.xml" value="0.2" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/item_product_cart.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/product_item.xml" value="0.1" />
-        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/viewholder_cart.xml" value="0.2" />
+        <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/layout/viewholder_cart.xml" value="0.264" />
         <entry key="..\:/Users/semah/StudioProjects/mobile_project2/app/src/main/res/menu/bottom_navbar.xml" value="0.24895833333333334" />
       </map>
     </option>
