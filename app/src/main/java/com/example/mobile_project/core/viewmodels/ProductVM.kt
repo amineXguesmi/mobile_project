@@ -3,13 +3,10 @@ package com.example.mobile_project.core.viewmodels
 import ProductService
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mobile_project.core.models.Categories
-import com.example.mobile_project.core.models.Category
-import com.example.mobile_project.core.models.Product
-import com.example.mobile_project.core.models.ProductsCart
-import com.example.mobile_project.core.models.ProductsData
+import com.example.mobile_project.core.models.*
 import com.example.mobile_project.core.services.category.CategoryService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -95,6 +92,27 @@ class ProductVM(private val productService: ProductService = ProductService() , 
         })
     }
 
+    fun getProductsByCategory(id: String) {
+
+        val call: Call<ProductByCategory> = productService.getProductByCategory(id)
+
+        call.enqueue(object : Callback<ProductByCategory> {
+            override fun onResponse(call: Call<ProductByCategory>, response: Response<ProductByCategory>) {
+                if (response.isSuccessful) {
+                    val result: ProductByCategory? = response.body()
+                    if (result != null) {
+                        products.postValue(result!!)
+                    }
+                } else {
+                    error.postValue("an error has occurred while fetching data")
+                }
+            }
+
+            override fun onFailure(call: Call<ProductByCategory>, t: Throwable) {
+                error.postValue(t.message)
+            }
+        })
+    }
     private fun saveCartProducts(context: Context, cartProducts: List<ProductsCart>) {
         val gson = Gson()
         val json = gson.toJson(cartProducts)
@@ -189,6 +207,7 @@ class ProductVM(private val productService: ProductService = ProductService() , 
         saveFavouriteProducts(context, favouriteProduct)
         getFavouriteProducts(context)
     }
+
     fun deleteProductFromFavourite(context: Context, product: Product) {
         val favouriteProduct = favouriteProduct.value?.toMutableList() ?: mutableListOf()
         val newFav = favouriteProduct.filter { it.id != product.id }

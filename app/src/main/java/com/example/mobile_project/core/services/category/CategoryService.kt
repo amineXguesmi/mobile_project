@@ -10,4 +10,5 @@ class CategoryService: CategoryAPI {
         return RetrofitHelper.categoryRetrofitService.getCategories()
     }
 
+
 }

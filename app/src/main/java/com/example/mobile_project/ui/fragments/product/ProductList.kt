@@ -7,17 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
-import android.widget.Spinner
+import android.widget.*
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.R
-import com.example.mobile_project.core.models.Categories
 import com.example.mobile_project.core.models.Category
 import com.example.mobile_project.core.viewmodels.ProductVM
 import com.example.mobile_project.databinding.FragmentProductListBinding
@@ -31,6 +27,7 @@ class ProductList : Fragment() {
     private val productViewModel:ProductVM by activityViewModels()
     private lateinit var searchProductInput : EditText
     private var searchString : String = ""
+    private lateinit var allProductTxt: TextView
     private var categories : List<Category?> = emptyList<Category>()
 
 
@@ -66,8 +63,21 @@ class ProductList : Fragment() {
         searchProductInput = binding.searchInput
         val productListRecyclerView : RecyclerView = binding.productListRecyclerView
         val spinner : Spinner = binding.spinner
+        allProductTxt = binding.getAll
         spinner.adapter = ArrayAdapter<Category>(requireContext() , androidx.appcompat.R.layout.support_simple_spinner_dropdown_item , categories)
-        productViewModel.categories.observe(viewLifecycleOwner) {categories = it ; spinner.adapter = ArrayAdapter<Category>(requireContext() , androidx.appcompat.R.layout.support_simple_spinner_dropdown_item , categories)
+        productViewModel.categories.observe(viewLifecycleOwner) {categories ->
+
+            spinner.adapter = ArrayAdapter<Category>(requireContext() , androidx.appcompat.R.layout.support_simple_spinner_dropdown_item , categories)
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    productViewModel.getProductsByCategory(categories[position].id)
+                }
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {
+                }
+            }
+        }
+        allProductTxt.setOnClickListener {
+            productViewModel.getProducts()
         }
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = ProductListAdapter(emptyList() , emptyList() ,searchString, ::toggleFavourite , ::redirectToProductDetails)

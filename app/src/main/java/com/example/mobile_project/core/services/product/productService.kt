@@ -1,5 +1,6 @@
 
 import com.example.mobile_project.core.models.Product
+import com.example.mobile_project.core.models.ProductByCategory
 import com.example.mobile_project.core.models.ProductsData
 import com.example.mobile_project.core.services.RetrofitHelper
 import com.example.mobile_project.core.services.product.ProductAPI
@@ -12,6 +13,11 @@ public class ProductService: ProductAPI {
 
     override fun getProductById(id: String): Call<Product> {
         return RetrofitHelper.productRetrofitService.getProductById(id);
+    }
+
+    override fun getProductByCategory(id: String): Call<ProductByCategory> {
+        return RetrofitHelper.productRetrofitService.getProductByCategory(id);
+
     }
 
 
