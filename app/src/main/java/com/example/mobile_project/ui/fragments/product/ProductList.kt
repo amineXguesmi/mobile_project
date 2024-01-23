@@ -31,7 +31,7 @@ class ProductList : Fragment() {
     private val productViewModel:ProductVM by activityViewModels()
     private lateinit var searchProductInput : EditText
     private var searchString : String = ""
-    private var categories : List<Category> = emptyList()
+    private var categories : List<Category?> = emptyList<Category>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
