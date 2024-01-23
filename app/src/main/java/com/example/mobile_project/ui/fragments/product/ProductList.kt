@@ -1,25 +1,24 @@
 package com.example.mobile_project.ui.fragments.product
 
 import android.os.Bundle
-import android.provider.Settings.Global.putString
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.R
+import com.example.mobile_project.core.models.Categories
+import com.example.mobile_project.core.models.Category
 import com.example.mobile_project.core.viewmodels.ProductVM
-import com.example.mobile_project.core.viewmodels.ProductVMFactory
-import com.example.mobile_project.core.viewmodels.UserVm
 import com.example.mobile_project.databinding.FragmentProductListBinding
 import com.example.mobile_project.ui.adapter.ProductListAdapter
 import com.example.mobile_project.ui.adapter.UpdateType
@@ -30,11 +29,13 @@ class ProductList : Fragment() {
     private val productViewModel:ProductVM by activityViewModels()
     private lateinit var searchProductInput : EditText
     private var searchString : String = ""
+    private var categories : List<Category> = emptyList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding=FragmentProductListBinding.inflate(layoutInflater)
+        productViewModel.getCategories()
 
 
 //        val productsObserver : Observer<List<Product>> = Observer<List<Product>> { products : List<Product> -> adapter.updateList(products)}
@@ -63,6 +64,10 @@ class ProductList : Fragment() {
     ): View {
         searchProductInput = binding.searchInput
         val productListRecyclerView : RecyclerView = binding.productListRecyclerView
+        val spinner : Spinner = binding.spinner
+        spinner.adapter = ArrayAdapter<Category>(requireContext() , androidx.appcompat.R.layout.support_simple_spinner_dropdown_item , categories)
+        productViewModel.categories.observe(viewLifecycleOwner) {categories = it ; spinner.adapter = ArrayAdapter<Category>(requireContext() , androidx.appcompat.R.layout.support_simple_spinner_dropdown_item , categories)
+        }
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
         val adapter = ProductListAdapter(emptyList() , emptyList() ,searchString, ::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter

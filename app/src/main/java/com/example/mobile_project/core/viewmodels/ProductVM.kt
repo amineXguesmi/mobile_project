@@ -5,20 +5,24 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mobile_project.core.models.Categories
+import com.example.mobile_project.core.models.Category
 import com.example.mobile_project.core.models.Product
 import com.example.mobile_project.core.models.ProductsData
+import com.example.mobile_project.core.services.category.CategoryService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProductVM(private val productService: ProductService = ProductService()) : ViewModel() {
+class ProductVM(private val productService: ProductService = ProductService() , private val categorService: CategoryService = CategoryService()) : ViewModel() {
     val products : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
     var error : MutableLiveData<String> = MutableLiveData<String>()
     val product : MutableLiveData<Product> = MutableLiveData<Product>()
     val cartProduct : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
     val favouriteProduct : MutableLiveData<List<Product>> = MutableLiveData<List<Product>>()
+    val categories : MutableLiveData<List<Category>> = MutableLiveData<List<Category>>()
     private val PREF_NAME = "MyAppPrefs"
     private val KEY_CART_PRODUCTS = "cartProducts"
     private val KEY_FAVOURITE_PRODUCTS = "favProducts"
@@ -42,6 +46,28 @@ class ProductVM(private val productService: ProductService = ProductService()) :
             }
 
             override fun onFailure(call: Call<ProductsData>, t: Throwable) {
+                error.postValue(t.message)
+            }
+        })
+    }
+
+    fun getCategories() {
+
+        val call: Call<List<Category>> = categorService.getCategories()
+
+        call.enqueue(object : Callback<List<Category>> {
+            override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
+                if (response.isSuccessful) {
+                    val result: List<Category>? = response.body()
+                    if (result != null) {
+                        categories.postValue(result ?: emptyList())
+                    }
+                } else {
+                    error.postValue("an error has occured while fetching data")
+                }
+            }
+
+            override fun onFailure(call: Call<List<Category>>, t: Throwable) {
                 error.postValue(t.message)
             }
         })

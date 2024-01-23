@@ -12,4 +12,8 @@ data class Category(
     val name: String,
     @SerializedName("__v")
     val v: Int
-)
+) {
+    override fun toString(): String {
+        return name
+    }
+}
