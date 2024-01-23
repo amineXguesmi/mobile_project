@@ -1,5 +1,6 @@
 package com.example.mobile_project.core.services
 
+import com.example.mobile_project.core.services.category.CategoryAPI
 import com.example.mobile_project.core.services.product.ProductAPI
 import com.example.mobile_project.core.services.user.UserAPI
 import retrofit2.Retrofit
@@ -19,4 +20,5 @@ object RetrofitHelper {
      */
     val userRetrofitService : UserAPI by lazy { retrofit.create(UserAPI::class.java) }
     val productRetrofitService : ProductAPI by lazy { retrofit.create(ProductAPI::class.java) }
+    val categoryRetrofitService : CategoryAPI by lazy { retrofit.create(CategoryAPI::class.java) }
 }

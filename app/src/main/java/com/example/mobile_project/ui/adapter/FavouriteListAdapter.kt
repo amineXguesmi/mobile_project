@@ -1,4 +1,4 @@
-package com.example.mobile_project.ui.adapter;
+package com.example.mobile_project.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +11,8 @@ import com.bumptech.glide.Glide
 import com.example.mobile_project.R
 import com.example.mobile_project.core.models.Product
 
-enum class UpdateType {
-    ALL,
-    FAV
-}
-
-class ProductListAdapter(private var productsList: List<Product>, private var favouriteList: List<Product>,var searchString : String, private val onFavouriteClick: (Product, Boolean) -> Unit, val onItemClick: (Product) -> Unit) :
-    RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
-
+class FavouriteListAdapter(var favouriteList: List<Product>,private var searchString: String, private val onFavouriteClick: (Product) -> Unit, val onItemClick: (Product) -> Unit) :
+    RecyclerView.Adapter<FavouriteListAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.image)
         val price: TextView = itemView.findViewById(R.id.price)
@@ -27,8 +21,7 @@ class ProductListAdapter(private var productsList: List<Product>, private var fa
         val isFavourite: ImageView = itemView.findViewById(R.id.isFavourite)
     }
 
-    private var filteredProducts : List<Product> = productsList
-
+    private var filteredProducts : List<Product> = favouriteList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.product_item, parent, false)
@@ -40,13 +33,8 @@ class ProductListAdapter(private var productsList: List<Product>, private var fa
         Glide.with(holder.itemView.context).load(currentItem.image).into(holder.image)
         holder.name.text = currentItem.name
         holder.price.text = "$ ${currentItem.price}"
-        if(favouriteList.any {it.id == currentItem.id}) {
-            holder.isFavourite.setImageResource(R.drawable.baseline_favorite_24)
-            holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem , true) }
-        } else {
-            holder.isFavourite.setImageResource(R.drawable.baseline_favorite_border_24)
-            holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem,false) }
-        }
+        holder.isFavourite.setImageResource(R.drawable.baseline_favorite_24)
+        holder.isFavourite.setOnClickListener { onFavouriteClick(currentItem) }
         holder.product.setOnClickListener {
             onItemClick(currentItem)
         }
@@ -55,21 +43,23 @@ class ProductListAdapter(private var productsList: List<Product>, private var fa
     override fun getItemCount(): Int {
         return filteredProducts.size
     }
-    fun updateList(newList: List<Product> , updateType: UpdateType = UpdateType.ALL) {
-        if(updateType === UpdateType.FAV){
-            favouriteList = newList
-        } else {
-            productsList = newList
-            filteredProducts = productsList.filter { p ->
-                searchString.all { char -> p.name.uppercase().contains(char.uppercaseChar()) }
-            }
-        }
-        notifyDataSetChanged()
-    }
-    fun updateSearchFilter(searchString : String) {
-        filteredProducts = productsList.filter { p ->
+    fun updateList(newList: List<Product>) {
+        favouriteList = newList
+        filteredProducts = favouriteList.filter { p ->
             searchString.all { char -> p.name.uppercase().contains(char.uppercaseChar()) }
         }
         notifyDataSetChanged()
+    }
+
+    fun updateSearchFilter(search : String) {
+        try {
+            searchString = search
+            filteredProducts = favouriteList.filter { p ->
+                searchString.all { char -> p.name.uppercase().contains(char.uppercaseChar()) }
+            }
+            notifyDataSetChanged()
+        } catch (e : Error) {
+            println(e)
+        }
     }
 }

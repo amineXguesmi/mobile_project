@@ -2,10 +2,13 @@ package com.example.mobile_project.ui.fragments.product
 
 import android.os.Bundle
 import android.provider.Settings.Global.putString
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -25,6 +28,8 @@ class ProductList : Fragment() {
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
     private val productViewModel:ProductVM by activityViewModels()
+    private lateinit var searchProductInput : EditText
+    private var searchString : String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,12 +61,22 @@ class ProductList : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        searchProductInput = binding.searchInput
         val productListRecyclerView : RecyclerView = binding.productListRecyclerView
         productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-        val adapter = ProductListAdapter(emptyList() , emptyList() , ::toggleFavourite , ::redirectToProductDetails)
+        val adapter = ProductListAdapter(emptyList() , emptyList() ,searchString, ::toggleFavourite , ::redirectToProductDetails)
         productListRecyclerView.adapter = adapter
         productViewModel.products.observe(viewLifecycleOwner) {adapter.updateList(it)}
         productViewModel.favouriteProduct.observe(viewLifecycleOwner) {adapter.updateList(it , UpdateType.FAV)}
+        searchProductInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+               adapter.updateSearchFilter(s.toString())
+            }
+        })
         return binding.root
     }
 
