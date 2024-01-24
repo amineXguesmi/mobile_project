@@ -66,7 +66,7 @@ class ProductVM(private val productService: ProductService = ProductService() , 
             }
 
             override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                error.postValue(t.message)
+                error.postValue("an error has occurred while fetching data")
             }
         })
     }
@@ -87,7 +87,7 @@ class ProductVM(private val productService: ProductService = ProductService() , 
                 }
             }
             override fun onFailure(call: Call<Product>, t: Throwable) {
-                error.postValue(t.message)
+                error.postValue("an error has occurred while fetching data")
             }
         })
     }
@@ -109,7 +109,7 @@ class ProductVM(private val productService: ProductService = ProductService() , 
             }
 
             override fun onFailure(call: Call<ProductByCategory>, t: Throwable) {
-                error.postValue(t.message)
+                error.postValue("an error has occurred while fetching data")
             }
         })
     }

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.viewModels
 import com.example.mobile_project.core.viewmodels.UserVm
 import com.example.mobile_project.core.viewmodels.UserVmFactory
@@ -16,6 +18,8 @@ class LoginScreen : AppCompatActivity() {
     private lateinit var emailTextEdit: EditText
     private lateinit var passwordTextEdit: EditText
     private lateinit var loginButton:Button
+    private lateinit var logoImg:ImageView
+    private lateinit var signupButton:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginScreenBinding.inflate(layoutInflater)
@@ -23,6 +27,9 @@ class LoginScreen : AppCompatActivity() {
         emailTextEdit = binding.email
         passwordTextEdit = binding.password
         loginButton = binding.login
+        logoImg = binding.logo
+        signupButton = binding.signup
+        logoImg.setImageResource(com.example.mobile_project.R.drawable.logo)
         loginButton.setOnClickListener {
             onLoginClick()
         }
@@ -36,6 +43,9 @@ class LoginScreen : AppCompatActivity() {
             if (errorMessage != null) {
                 binding.error.text = errorMessage
             }
+        }
+        signupButton.setOnClickListener {
+            onSignupClick()
         }
     }
 

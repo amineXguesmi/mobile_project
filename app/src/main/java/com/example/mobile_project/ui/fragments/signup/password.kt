@@ -53,11 +53,11 @@ class PasswordFragment : Fragment() {
         val passwordAgainValue = passwordAgain.text.toString().trim()
 
         if (!validatePassword(passwordValue)) {
-            showError("Invalid email format")
+            showError("Password must be at least 6 characters long")
             return
         }
         if (passwordValue != passwordAgainValue) {
-            showError("Emails do not match")
+            showError("passwords doesn't match")
             return
         }
         viewModel.userPassword = passwordValue
